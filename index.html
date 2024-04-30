@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .todo-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .todo-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .todo-item i {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="todo-container">
+            <h2 class="text-center">To-Do List</h2>
+            <div class="input-group mb-3">
+                <input type="text" id="taskInput" class="form-control" placeholder="Add new task">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" id="addTaskBtn"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            <ul class="list-group" id="taskList">
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Function to add a new task
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskText = taskInput.value.trim();
+            if (taskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+            var taskList = document.getElementById("taskList");
+            var listItem = document.createElement("li");
+            listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+            listItem.innerHTML = `
+                <label class="mb-0">${taskText}</label>
+                <div>
+                    <input type="checkbox" class="mr-2" onchange="toggleTaskStatus(this)">
+                    <i class="fas fa-trash-alt text-danger" onclick="removeTask(this)"></i>
+                </div>
+            `;
+            taskList.appendChild(listItem);
+            taskInput.value = "";
+        }
+
+        // Function to remove a task
+        function removeTask(el) {
+            var listItem = el.closest("li");
+            listItem.remove();
+        }
+
+        // Function to toggle task status
+        function toggleTaskStatus(el) {
+            var label = el.parentElement.previousElementSibling;
+            if (el.checked) {
+                label.style.textDecoration = "line-through";
+                label.style.color = "#aaa";
+            } else {
+                label.style.textDecoration = "none";
+                label.style.color = "#000";
+            }
+        }
+
+        // Event listener to add task
+        document.getElementById("addTaskBtn").addEventListener("click", addTask);
+    </script>
+</body>
+</html>
